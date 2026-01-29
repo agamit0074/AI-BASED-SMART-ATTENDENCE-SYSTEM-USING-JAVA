@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Smart Attendance</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+<div class="app-layout">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="images/logo.png" alt="Logo">
+            <span>SmartAttendance</span>
+        </div>
+        <nav class="menu">
+            <div class="menu-item active"><i class='bx bxs-grid-alt'></i> <span>Dashboard</span></div>
+            <div class="menu-item"><i class='bx bxs-book-open'></i> <span>Courses</span></div>
+            <div class="menu-item"><i class='bx bxs-bar-chart-alt-2'></i> <span>Reports</span></div>
+            <div class="menu-item"><i class='bx bxs-user-circle'></i> <span>Profile</span></div>
+        </nav>
+        <button id="logoutBtn" class="logout-link"><i class='bx bx-log-out'></i> Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-nav">
+            <div class="search-bar">
+                <i class='bx bx-search'></i>
+                <input type="text" placeholder="Search subjects...">
+            </div>
+            <div class="user-meta">
+                <div class="notif-wrapper">
+                    <i class='bx bxs-bell'></i>
+                    <span class="notif-dot"></span>
+                </div>
+                <div class="profile-pill">
+                    <div class="avatar">JD</div>
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-body">
+            <section id="lectureContainer" class="hero-section">
+                </section>
+
+            <div class="grid-container">
+                <section class="stats-overview">
+                    <div class="stat-box">
+                        <div class="s-icon purple"><i class='bx bxs-graduation'></i></div>
+                        <div class="s-info"><h3>Total</h3><p id="totalClasses">0</p></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="s-icon green"><i class='bx bxs-check-shield'></i></div>
+                        <div class="s-info"><h3>Present</h3><p id="presentCount">0</p></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="s-icon red"><i class='bx bxs-x-circle'></i></div>
+                        <div class="s-info"><h3>Absent</h3><p id="absentCount">0</p></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="s-icon orange"><i class='bx bxs-doughnut-chart'></i></div>
+                        <div class="s-info"><h3>Avg %</h3><p id="attendancePercent">0%</p></div>
+                    </div>
+                </section>
+
+                <section class="table-section">
+                    <div class="section-header">
+                        <h3>Performance Breakdown</h3>
+                        <button class="view-all-btn">View All <i class='bx bx-chevron-right'></i></button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="future-table">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Total</th>
+                                    <th>Present</th>
+                                    <th>Absent</th>
+                                    <th>Status</th>
+                                    <th>Progress</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subjectTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

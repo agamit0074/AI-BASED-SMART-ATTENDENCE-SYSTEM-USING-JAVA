@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SmartAttendance</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="stylesheet" href="css/admin.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="images/logo.png" alt="Logo">
+            <span>SmartAttendance</span>
+        </div>
+        <nav class="side-nav">
+            <p class="nav-label">Main Menu</p>
+            <ul>
+                <li class="active" data-tab="students"><i class='bx bxs-graduation'></i> Student Mgmt</li>
+                <li data-tab="faculty"><i class='bx bxs-user-badge'></i> Faculty Mgmt</li>
+                <li data-tab="timetable"><i class='bx bxs-calendar-event'></i> Timetable</li>
+                <li data-tab="geo"><i class='bx bxs-map-pin'></i> Geo-Fencing</li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-avatar">AD</div>
+            <div class="user-info">
+                <p>System Admin</p>
+                <small>Control Center</small>
+            </div>
+            <button id="logoutBtn" title="Logout"><i class='bx bx-log-out'></i></button>
+        </div>
+    </aside>
+
+    <main class="content">
+        <header class="content-header">
+            <h1 id="activeTabTitle">Student Management</h1>
+            <div class="header-actions">
+                <div class="live-clock" id="liveClock">00:00:00</div>
+            </div>
+        </header>
+
+        <section class="tab-pane active" id="students">
+            <div class="stat-grid">
+                <div class="stat-card"><h3>0</h3><p>Total Students</p></div>
+                <div class="stat-card"><h3>0</h3><p>Invited</p></div>
+                <div class="stat-card"><h3>0</h3><p>Active</p></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class='bx bx-user-plus'></i> Invite New Student</h3>
+                </div>
+                <div class="form-grid">
+                    <input type="text" id="sName" placeholder="Full Name">
+                    <input type="email" id="sEmail" placeholder="Email Address">
+                    <input type="text" id="sMobile" placeholder="Mobile Number">
+                    <input type="text" id="sClass" placeholder="Class / Section">
+                    <button class="primary-btn" id="addStudentBtn">Send Registration Link</button>
+                </div>
+            </div>
+
+            <div class="card table-card">
+                <div class="card-header">
+                    <h3>Registered Students</h3>
+                    <div class="search-bar">
+                        <i class='bx bx-search'></i>
+                        <input type="text" placeholder="Search students...">
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Class</th>
+                            <th>Subjects</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="tab-pane" id="faculty">
+            <div class="card">
+                <h3><i class='bx bx-paper-plane'></i> Invite Faculty</h3>
+                <div class="form-grid">
+                    <input type="text" id="fName" placeholder="Faculty Name">
+                    <input type="email" id="fEmail" placeholder="Faculty Email">
+                    <button class="primary-btn" id="addFacultyBtn">Send Invite</button>
+                </div>
+            </div>
+            <div class="card table-card">
+                <h3>Faculty Directory</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Faculty Name</th>
+                            <th>Email Address</th>
+                            <th>Assigned Subjects</th>
+                            <th>Class</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="facultyTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="tab-pane" id="timetable">
+            <div class="card">
+                <h3><i class='bx bx-calendar-plus'></i> Schedule Lecture</h3>
+                <div class="form-grid">
+                    <input id="ttClass" placeholder="Class (e.g. CS-A)">
+                    <input id="ttSubject" placeholder="Subject">
+                    <input id="ttFaculty" placeholder="Faculty Name">
+                    <select id="ttPeriod">
+                        <option value="">Select Period</option>
+                        <option>Period 1</option><option>Period 2</option>
+                        <option>Period 3</option><option>Period 4</option>
+                    </select>
+                    <button class="primary-btn" id="addTTBtn">Assign to Timetable</button>
+                </div>
+            </div>
+            <div class="card table-card">
+                <h3>Current Timetable Matrix</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Subject</th>
+                            <th>Faculty</th>
+                            <th>Period</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ttTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="tab-pane" id="geo">
+            <div class="card">
+                <h3><i class='bx bx-globe'></i> Campus Geo-Fence Configuration</h3>
+                <p class="hint">Define the geographical boundary for attendance scanning.</p>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Latitude</label>
+                        <input id="lat" placeholder="23.0225">
+                    </div>
+                    <div class="input-group">
+                        <label>Longitude</label>
+                        <input id="lng" placeholder="72.5714">
+                    </div>
+                    <div class="input-group">
+                        <label>Radius (Meters)</label>
+                        <input id="radius" placeholder="100">
+                    </div>
+                    <button class="primary-btn">Save Configuration</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

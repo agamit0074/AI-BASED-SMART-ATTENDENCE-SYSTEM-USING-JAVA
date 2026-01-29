@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard | SmartAttendance</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="stylesheet" href="css/faculty-dashboard.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="images/logo.png" alt="SmartAttendance Logo" class="nav-logo">
+            <span>SmartAttendance</span>
+        </div>
+        <nav class="side-nav">
+            <ul>
+                <li class="nav-item active" data-tab="live-class"><i class='bx bx-radio-circle-marked'></i> Live Class</li>
+                <li class="nav-item" data-tab="timetable"><i class='bx bx-calendar-event'></i> My Schedule</li>
+                <li class="nav-item" data-tab="reports"><i class='bx bx-file-find'></i> Reports</li>
+                <li class="nav-item" data-tab="profile"><i class='bx bx-user-pin'></i> Profile</li>
+            </ul>
+        </nav>
+        <button id="logoutBtn" class="logout-btn"><i class='bx bx-log-out-circle'></i> Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="welcome-section">
+                <h2>Welcome, <span id="facultyName">Professor</span></h2>
+                <p>Track student attendance in real-time</p>
+            </div>
+            <div class="header-right">
+                <div class="live-clock" id="liveClock">00:00:00</div>
+            </div>
+        </header>
+
+        <section id="live-class" class="tab-content active">
+            <div class="dashboard-grid">
+                
+                <div class="lecture-hero" id="heroCard">
+                    <div class="lecture-info">
+                        <div class="badge-row">
+                            <span class="status-badge" id="lectureBadge">Scheduled</span>
+                        </div>
+                        <h1 id="subjectDisplay">--</h1>
+                        <p class="meta-info">
+                            <span><i class='bx bx-time'></i> <span id="timeRange">--</span></span>
+                            <span><i class='bx bx-list-ol'></i> Period <span id="periodNum">--</span></span>
+                        </p>
+                        <div class="live-indicator">
+                            <span class="pulse-dot"></span>
+                            <span id="sessionStatus">Ready to start session</span>
+                        </div>
+                    </div>
+
+                    <div class="lecture-controls" id="controls">
+                        <button id="startBtn" class="btn-start">
+                            <i class='bx bx-play-circle'></i> Start Class
+                        </button>
+                        <button id="endBtn" class="btn-end hidden">
+                            <i class='bx bx-stop-circle'></i> End Session
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="counter-card">
+                        <i class='bx bxs-user-check'></i>
+                        <div><h3 id="presentCount">0</h3><p>Present</p></div>
+                    </div>
+                    <div class="counter-card">
+                        <i class='bx bxs-user-x'></i>
+                        <div><h3 id="absentCount">0</h3><p>Absent</p></div>
+                    </div>
+                </div>
+
+                <div class="log-container">
+                    <div class="log-header">
+                        <h3>Live Attendance Log</h3>
+                        <div class="search-box">
+                            <i class='bx bx-search-alt'></i>
+                            <input type="text" placeholder="Search by Roll No...">
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="smart-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll Number</th>
+                                    <th>Student Name</th>
+                                    <th>Check-in Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="js/faculty-dashboard.js"></script>
+</body>
+</html>

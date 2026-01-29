@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Invitation</title>
+    <style>
+        /* Email Client Resets */
+        body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: #f1f5f9; }
+        table { border-spacing: 0; border-collapse: collapse; }
+        
+        /* Typography */
+        body, td { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #334155; }
+        
+        /* Styles */
+        .wrapper { width: 100%; table-layout: fixed; background-color: #f1f5f9; padding: 40px 0; }
+        .card { background-color: #ffffff; margin: 0 auto; width: 100%; max-width: 580px; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        /* Header */
+        .header { background: #0f172a; padding: 35px 40px; text-align: center; }
+        .logo { color: #f97316; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; }
+        .logo span { color: #ffffff; }
+        
+        /* Content */
+        .body-content { padding: 40px; }
+        .welcome-text { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 15px; }
+        .description { font-size: 16px; line-height: 1.6; color: #64748b; margin-bottom: 25px; }
+        
+        /* The "Tech" Info Box */
+        .info-box { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+        .info-row { margin-bottom: 8px; font-size: 14px; }
+        .info-label { color: #94a3b8; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+        .info-value { color: #0f172a; font-weight: 700; margin-left: 10px; }
+        
+        /* Modern Button */
+        .btn-container { text-align: center; margin-bottom: 30px; }
+        .btn { 
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); 
+            color: #ffffff !important; 
+            padding: 16px 40px; 
+            text-decoration: none; 
+            border-radius: 50px; /* Pill shape */
+            font-weight: bold; 
+            font-size: 16px; 
+            display: inline-block; 
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); 
+            transition: all 0.3s ease;
+        }
+        
+        /* Footer */
+        .footer { background-color: #f8fafc; padding: 30px; text-align: center; border-top: 1px solid #e2e8f0; }
+        .footer-links { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
+        .footer-links a { color: #64748b; text-decoration: none; font-weight: 600; margin: 0 5px; }
+        .security-note { font-size: 11px; color: #cbd5e1; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <table class="card" align="center">
+        <tr>
+            <td class="header">
+                <div class="logo">Smart<span>Attendance</span></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="body-content">
+                <div class="welcome-text">Start your journey, {{name}}.</div>
+                
+                <p class="description">
+                    You have been granted access to the <strong>SmartAttendance</strong> ecosystem. Please activate your account to sync your schedule and track real-time attendance.
+                </p>
+
+                <table width="100%" class="info-box">
+                    <tr>
+                        <td>
+                            <div class="info-row">
+                                <span class="info-label">Access Role</span>
+                                <span class="info-value">{{role}}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Institution</span>
+                                <span class="info-value">SmartAttendance Inc.</span>
+                            </div>
+                            <div class="info-row" style="margin-bottom: 0;">
+                                <span class="info-label">Link Expiry</span>
+                                <span class="info-value" style="color:#ef4444;">24 Hours</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="btn-container">
+                    <a href="{{link}}" class="btn">Verify & Activate Account</a>
+                </div>
+
+                <p style="font-size: 13px; color: #94a3b8; text-align: center;">
+                    Or paste this link: <a href="{{link}}" style="color: #f97316; word-break: break-all;">{{link}}</a>
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="footer">
+                <div class="footer-links">
+                    <a href="#">Help Center</a> &bull; 
+                    <a href="#">Privacy Policy</a> &bull; 
+                    <a href="#">Terms</a>
+                </div>
+                <p class="security-note">
+                    Secure System Notification. Sent automatically by SmartAttendance.<br>
+                    ID: #SA-{{uuid}} | Encryption: TLS 1.2+
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

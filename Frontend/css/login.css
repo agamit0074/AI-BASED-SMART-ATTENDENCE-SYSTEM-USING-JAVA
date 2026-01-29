@@ -1,0 +1,172 @@
+:root {
+    --primary: #f97316;
+    --dark: #0f172a;
+    --white: #ffffff;
+    --gray: #64748b;
+    --light-bg: #fff7ed;
+}
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    background-color: var(--white);
+}
+
+.split-container {
+    display: flex;
+    width: 100%;
+}
+
+/* LEFT PANEL */
+.left-panel {
+    flex: 1.2;
+    background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+    color: var(--white);
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.brand-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.side-logo { height: 45px; }
+
+.info-content h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.info-content h1 span { color: var(--primary); }
+
+.info-content p {
+    font-size: 18px;
+    color: #94a3b8;
+    max-width: 450px;
+    margin-bottom: 40px;
+}
+
+.benefits { list-style: none; }
+.benefits li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #cbd5e1;
+}
+.benefits i { color: var(--primary); font-size: 20px; }
+
+/* RIGHT PANEL */
+.right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+}
+
+.login-form-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+.form-header { margin-bottom: 30px; }
+.form-header h2 { font-size: 32px; color: var(--dark); }
+.form-header p { color: var(--gray); font-size: 14px; }
+
+.input-wrapper { margin-bottom: 20px; }
+.input-wrapper label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
+
+.input-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-field i:first-child { position: absolute; left: 15px; color: var(--gray); }
+.input-field input {
+    width: 100%; padding: 14px 15px 14px 45px;
+    border: 1.5px solid #e2e8f0; border-radius: 12px;
+    outline: none; transition: 0.3s;
+}
+
+.input-field input:focus { border-color: var(--primary); }
+
+#togglePassword { position: absolute; right: 15px; cursor: pointer; }
+
+.form-help {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.form-help a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+.login-btn {
+    width: 100%; padding: 15px;
+    background: var(--primary); color: white;
+    border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 700;
+    cursor: pointer; display: flex;
+    justify-content: center; align-items: center; gap: 10px;
+}
+
+.login-btn:hover { background: #ea580c; }
+
+@media (max-width: 900px) {
+    .left-panel { display: none; }
+}
+
+
+.animated-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    
+    /* 1 Second Smooth Animation */
+    animation: zoomFade 1s cubic-bezier(0.34, 1.56, 0.64, 1); 
+}
+
+/* Keyframe for Zoom + Fade effect */
+@keyframes zoomFade {
+    0% {
+        opacity: 0;
+        transform: scale(0.9); /* Thoda chota se shuru hoga */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Full size par aayega (Zoom effect) */
+    }
+}
+
+/* Input fields hover effect for extra interactivity */
+.input-field {
+    transition: transform 0.3s ease;
+}
+
+.input-field:focus-within {
+    transform: translateY(-2px); /* Click karne pe halka sa upar uthega */
+}
+
+.login-btn:active {
+    transform: scale(0.98); /* Button dabane pe press effect */
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Smart Attendance</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="stylesheet" href="css/login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+<div class="split-container">
+    <div class="left-panel">
+        <div class="brand-top">
+            <img src="images/logo.png" alt="Logo" class="side-logo">
+            <span>SmartAttendance</span>
+        </div>
+        <div class="info-content">
+            <h1>The Future of <br><span>Identity Verification.</span></h1>
+            <p>Experience the power of AI-driven facial recognition for seamless and secure attendance management.</p>
+            
+            <ul class="benefits">
+                <li><i class='bx bx-check-circle'></i> Real-time Face Embeddings</li>
+                <li><i class='bx bx-check-circle'></i> GPS-Based Geofencing</li>
+                <li><i class='bx bx-check-circle'></i> Zero Physical Contact</li>
+            </ul>
+        </div>
+        <div class="footer-note">
+            © 2026 SmartAttendance System v2.0
+        </div>
+    </div>
+
+    <!-- <div class="right-panel">
+        <div class="login-form-box">
+            <div class="form-header">
+                <h2>Sign In</h2>
+                <p>Welcome back! Please login to your account.</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-wrapper">
+                    <label>Username</label>
+                    <div class="input-field">
+                        <i class='bx bxs-user'></i>
+                        <input type="text" id="username" placeholder="Enter username" required>
+                    </div>
+                </div>
+
+                <div class="input-wrapper">
+                    <label>Password</label>
+                    <div class="input-field">
+                        <i class='bx bxs-lock-alt'></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <i class='bx bxs-hide' id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <div class="form-help">
+                    <label><input type="checkbox"> Remember me</label>
+                    <a href="#">Forgot?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span>Login</span>
+                    <i class='bx bx-right-arrow-alt'></i>
+                </button>
+                <p id="errorMsg"></p>
+            </form>
+        </div>
+    </div> -->
+    <div class="right-panel">
+        <form id="loginForm" class="animated-form">
+        <div class="form-header">
+            <h2>Sign In</h2>
+            <p>Welcome back! Please login to your account.</p>
+        </div>
+
+        <div class="input-wrapper">
+            <label>Username</label>
+            <div class="input-field">
+                <i class='bx bxs-user'></i>
+                <input type="text" id="username" placeholder="Enter username" required>
+            </div>
+        </div>
+
+        <div class="input-wrapper">
+            <label>Password</label>
+            <div class="input-field">
+                <i class='bx bxs-lock-alt'></i>
+                <input type="password" id="password" placeholder="••••••••" required>
+                <i class='bx bxs-hide' id="togglePassword"></i>
+            </div>
+        </div>
+
+        <div class="form-help">
+            <label><input type="checkbox"> Remember me</label>
+            <a href="#">Forgot?</a>
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">
+            <span>Login</span>
+            <i class='bx bx-right-arrow-alt'></i>
+        </button>
+        <p id="errorMsg"></p>
+        </form>
+    </div>
+</div>
+
+<script src="js/login.js"></script>
+</body>
+</html>
