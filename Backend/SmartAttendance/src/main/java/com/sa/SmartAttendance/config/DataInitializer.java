@@ -20,18 +20,18 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        String adminEmail = "admin@smartattendance.com";
+        String adminEmail = "faculty@smartattendance.com";
 
         // Check if admin already exists
         if (userRepository.findByEmail(adminEmail).isPresent()) {
-            System.out.println("Admin already exists....,\n skipping creation......");
+            System.out.println("Student already exists....,\n skipping creation......");
             return;
         }
 
         User admin = new User();
         admin.setEmail(adminEmail);
-        admin.setPassword(passwordEncoder.encode("admin@123"));
-        admin.setRole("ADMIN");
+        admin.setPassword(passwordEncoder.encode("faculty@123"));
+        admin.setRole("FACULTY");
         admin.setEnabled(true);
 
         userRepository.save(admin);

@@ -3,6 +3,7 @@ const togglePassword = document.getElementById("togglePassword");
 const loginForm = document.getElementById("loginForm");
 const loginBtn = document.getElementById("loginBtn");
 const errorMsg = document.getElementById("errorMsg");
+const username = document.getElementById("username")
 
 // 1. Better Password Toggle
 togglePassword.addEventListener("click", function() {
@@ -29,7 +30,7 @@ loginForm.addEventListener("submit", async (e) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                email: document.getElementById("username").value,
+                email: username.value,
                 password: passwordInput.value
             })
         });
@@ -38,11 +39,15 @@ loginForm.addEventListener("submit", async (e) => {
 
         console.log(data);
         
-
-
-        if (response.ok) {
+        if (data.role==="ADMIN") {
             localStorage.setItem("token", data.token);
             window.location.href = "admin.html";
+        }else if (data.role==="STUDENT") {
+            localStorage.setItem("token", data.token);
+            window.location.href = "dashboard.html";
+        }else if (data.role==="FACULTY") {
+            localStorage.setItem("token", data.token);
+            window.location.href = "faculty-dashboard.html";
         } else {
             throw new Error(data.message || "Invalid credentials");
         }

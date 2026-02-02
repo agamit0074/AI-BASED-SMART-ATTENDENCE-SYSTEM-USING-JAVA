@@ -1,5 +1,5 @@
 /* ---------- AUTH ---------- */
-// if (!localStorage.getItem("token")) location.href = "login.html";
+if (!localStorage.getItem("token")) location.href = "login.html";
 
 // --- INITIALIZATION ---
 document.addEventListener("DOMContentLoaded", () => {

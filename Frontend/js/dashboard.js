@@ -3,8 +3,8 @@
    ============================================= */
 
 // 1. AUTH GUARD (Optional: Check if user is logged in)
-// const token = localStorage.getItem("token");
-// if (!token) window.location.href = "login.html";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "login.html";
 
 // --- DATA MOCKUP ---
 let activeLecture = {
