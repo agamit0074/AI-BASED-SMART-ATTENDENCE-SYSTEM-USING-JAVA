@@ -1,147 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Registration | SmartAttendance</title>
-    <link rel="icon" type="image/png" href="images/logo.png">
-    <link rel="stylesheet" href="css/register.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration | SmartAttendance</title>
+
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="stylesheet" href="css/register.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<style>
+.status-card{
+background:#fff7ed;
+border:1px solid #fed7aa;
+padding:30px;
+border-radius:16px;
+text-align:center;
+margin-bottom:30px;
+}
+.password-strength{margin-top:6px;}
+#strengthBar{height:6px;border-radius:6px;transition:.3s;}
+#matchText{font-size:12px;}
+.disabled-btn{opacity:.6;pointer-events:none;}
+
+/* Modal */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+.modal-content{
+background:#fff;
+width:500px;
+max-height:80%;
+overflow:auto;
+padding:30px;
+border-radius:16px;
+}
+</style>
 </head>
 <body>
 
 <div class="split-layout">
-    
-    <div class="left-panel">
-        <div class="brand-content">
-            <div class="logo-area">
-                <img src="images/logo.png" alt="Logo">
-                <span>SmartAttendance</span>
-            </div>
-            <h1>Start your<br>Academic Journey.</h1>
-            <p>Seamlessly track your attendance, view reports, and manage your profile with our AI-powered ecosystem.</p>
-            <div class="features-grid">
-                <div class="glass-card">
-                    <i class='bx bxs-face'></i>
-                    <div><h4>AI Face ID</h4><small>Secure Biometric Login</small></div>
-                </div>
-                <div class="glass-card">
-                    <i class='bx bxs-check-shield'></i>
-                    <div><h4>Encrypted</h4><small>Data Privacy First</small></div>
-                </div>
-            </div>
-        </div>
-        <div class="bg-circle"></div>
-    </div>
 
-    <div class="right-panel">
-        <div class="form-wrapper">
-            <div class="form-header">
-                <h2>Create Account</h2>
-                <p>Enter your details to generate your student profile.</p>
-            </div>
+<!-- LEFT PANEL SAME -->
+<div class="left-panel">
+<div class="brand-content">
+<div class="logo-area">
+<img src="images/logo.png">
+<span>SmartAttendance</span>
+</div>
+<h1>Start your<br>Academic Journey.</h1>
+<p>Seamlessly track attendance with AI-powered system.</p>
+</div>
+</div>
 
-            <form id="regForm">
-                
-                <div class="profile-uploader">
-                    <div class="circle-wrapper" onclick="document.getElementById('fileInput').click()">
-                        <div class="placeholder-icon" id="placeholderIcon"><i class='bx bxs-camera'></i></div>
-                        <img id="avatarPreview" class="avatar-img hidden" alt="Profile">
-                    </div>
-                    <input type="file" id="fileInput" accept="image/*" hidden>
-                    <span class="upload-label">Upload Face ID Photo</span>
-                </div>
+<div class="right-panel">
+<div class="form-wrapper">
 
-                <div class="grid-system">
-                    
-                    <div class="col-2">
-                        <label>Title</label>
-                        <select id="title"><option>Mr.</option><option>Ms.</option><option>Mx.</option></select>
-                    </div>
-                    <div class="col-4">
-                        <label>First Name</label>
-                        <input type="text" id="fName" required placeholder="John">
-                    </div>
-                    <div class="col-3">
-                        <label>Middle</label>
-                        <input type="text" id="mName" placeholder="QA">
-                    </div>
-                    <div class="col-3">
-                        <label>Last Name</label>
-                        <input type="text" id="lName" required placeholder="Doe">
-                    </div>
+<div id="statusContainer"></div>
 
-                    <div class="col-6">
-                        <label>Date of Birth</label>
-                        <input type="date" id="dob" required>
-                    </div>
-                    <div class="col-6">
-                        <label>Gender</label>
-                        <select id="gender" required>
-                            <option value="">Select Gender</option>
-                            <option>Male</option><option>Female</option><option>Other</option>
-                        </select>
-                    </div>
+<form id="regForm">
 
-                    <div class="col-6">
-                        <label>Email (Locked) <i class='bx bxs-lock-alt icon-lock'></i></label>
-                        <div class="input-icon">
-                            <i class='bx bxs-envelope'></i>
-                            <input type="email" id="email" value="student@college.edu" disabled class="locked-input">
-                        </div>
-                    </div>
-                    
-                    <div class="col-6">
-                        <label>Mobile Number</label>
-                        <div class="input-icon mobile-group">
-                            <i class='bx bxs-phone'></i>
-                            <span class="country-code">+91</span>
-                            <input type="tel" id="mobile" placeholder="98765 43210" maxlength="10" required>
-                        </div>
-                    </div>
+<!-- PROFILE PIC -->
+<div class="profile-uploader">
+<div class="circle-wrapper">
+<div class="placeholder-icon" id="placeholderIcon">
+<i class='bx bxs-camera'></i>
+</div>
+<img id="avatarPreview" class="avatar-img hidden">
+</div>
+<input type="file" id="fileInput" accept="image/*" hidden required>
+<span class="upload-label">Upload Face ID Photo</span>
+</div>
 
-                    <div class="col-12">
-                        <label>University Roll Number</label>
-                        <div class="input-icon">
-                            <i class='bx bxs-id-card'></i>
-                            <input type="text" id="rollNo" placeholder="2024-CS-001" required>
-                        </div>
-                    </div>
+<div class="grid-system">
 
-                    <div class="col-6">
-                        <label>Create Password</label>
-                        <div class="input-icon">
-                            <i class='bx bxs-key'></i>
-                            <input type="password" id="password" required>
-                            <i class='bx bx-show eye-toggle' onclick="togglePass('password', this)"></i>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <label>Confirm Password</label>
-                        <div class="input-icon">
-                            <i class='bx bxs-check-shield'></i>
-                            <input type="password" id="cPassword" required>
-                            <i class='bx bx-show eye-toggle' onclick="togglePass('cPassword', this)"></i>
-                        </div>
-                    </div>
+<div class="col-2">
+<label>Title</label>
+<select id="title">
+<option>Mr.</option>
+<option>Ms.</option>
+<option>Mx.</option>
+</select>
+</div>
 
-                </div>
+<div class="col-4">
+<label>First Name</label>
+<input type="text" id="fName" required>
+</div>
 
-                <div class="form-actions">
-                    <label class="terms-wrap">
-                        <input type="checkbox" id="termsCheck" required>
-                        <span class="check-box"></span>
-                        <span class="text">I agree to <a href="#">Terms & Privacy</a></span>
-                    </label>
+<div class="col-3">
+<label>Middle Name</label>
+<input type="text" id="mName">
+</div>
 
-                    <button type="submit" class="submit-btn">
-                        Complete Registration <i class='bx bx-right-arrow-alt'></i>
-                    </button>
-                </div>
+<div class="col-3">
+<label>Last Name</label>
+<input type="text" id="lName" required>
+</div>
 
-            </form>
-        </div>
-    </div>
+<div class="col-6">
+<label>Date of Birth</label>
+<input type="date" id="dob" required>
+</div>
+
+<div class="col-6">
+<label>Gender</label>
+<select id="gender" required>
+<option value="">Select Gender</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="col-6">
+<label>Email</label>
+<div class="input-icon">
+<i class='bx bxs-envelope'></i>
+<input type="email" id="email" disabled class="locked-input">
+</div>
+</div>
+
+<div class="col-6">
+<label>Mobile</label>
+<div class="input-icon mobile-group">
+<i class='bx bxs-phone'></i>
+<span class="country-code">+91</span>
+<input type="tel" id="mobile" maxlength="10" required>
+</div>
+</div>
+
+<div class="col-12">
+<label>University Roll Number</label>
+<div class="input-icon">
+<i class='bx bxs-id-card'></i>
+<input type="text" id="rollNo" required>
+</div>
+</div>
+
+<div class="col-6">
+<label>Password</label>
+<div class="input-icon">
+<i class='bx bxs-key'></i>
+<input type="password" id="password" required minlength="8">
+<i class='bx bx-show eye-toggle' onclick="togglePass('password', this)"></i>
+</div>
+<div class="password-strength">
+<div id="strengthBar"></div>
+<small id="strengthText"></small>
+</div>
+</div>
+
+<div class="col-6">
+<label>Confirm Password</label>
+<div class="input-icon">
+<i class='bx bxs-check-shield'></i>
+<input type="password" id="cPassword" required>
+<i class='bx bx-show eye-toggle' onclick="togglePass('cPassword', this)"></i>
+</div>
+<small id="matchText"></small>
+</div>
+
+</div>
+
+<div class="form-actions">
+<label class="terms-wrap">
+<input type="checkbox" id="termsCheck">
+<span class="check-box"></span>
+<span>I agree to <a href="#" id="openTerms">Terms & Conditions</a></span>
+</label>
+
+<div class="g-recaptcha" data-sitekey="6LevAm8sAAAAAKKulA76qKHwNuS5tDThfGJTzCfN" data-callback="recaptchaCallback"></div>
+
+<button type="submit" id="registerBtn" class="submit-btn disabled-btn" disabled>
+Complete Registration
+</button>
+</div>
+
+</form>
+</div>
+</div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal" id="termsModal">
+<div class="modal-content">
+<h3>Terms & Conditions</h3>
+<p>
+1. Accurate data required.<br><br>
+2. Biometric securely stored.<br><br>
+3. Misuse leads to suspension.<br><br>
+4. Admin decision final.
+</p>
+<button onclick="closeModal()" class="submit-btn">Close</button>
+</div>
 </div>
 
 <script src="js/register.js"></script>

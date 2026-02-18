@@ -1,5 +1,6 @@
 /* ---------- AUTH ---------- */
-if (!localStorage.getItem("token")) location.href = "login.html";
+if (!localStorage.getItem("token")) 
+    location.href = "login.html";
 
 // --- INITIALIZATION ---
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,43 +30,68 @@ document.querySelectorAll(".side-nav li").forEach(li => {
 // --- STUDENT MANAGEMENT ---
 let students = [];
 
-document.getElementById('addStudentBtn').onclick = () => {
-    const name = document.getElementById('sName').value;
-    const email = document.getElementById('sEmail').value;
-    const sclass = document.getElementById('sClass').value;
+//Button click
+document.getElementById("addStudentBtn").addEventListener("click", sendInvite);
 
-    if(!name || !email) return alert("Please fill basic details!");
+function sendInvite() {
 
-    // Backend API Call here: POST /api/admin/invite-student
-    students.push({
-        id: Date.now(),
-        name,
-        email,
-        class: sclass,
-        subjects: [],
-        status: "INVITED"
+  const name = document.getElementById("sName").value.trim();
+  const email = document.getElementById("sEmail").value.trim();
+  const mobile = document.getElementById("sMobile").value.trim();
+
+  // Basic validation
+  if (!name || !email || !mobile) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const payload = {
+    name: name,
+    email: email,
+    mobile: mobile
+  };
+
+  // Disable button (UX)
+  const btn = document.getElementById("addStudentBtn");
+  btn.disabled = true;
+  btn.innerText = "Sending...";
+
+  fetch("http://localhost:8080/api/admin/students/invite", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + localStorage.getItem("token")
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Failed");
+      return res.text();
+    })
+    .then(msg => {
+      alert("✅ Registration link sent successfully");
+
+      // Clear form
+      document.getElementById("sName").value = "";
+      document.getElementById("sEmail").value = "";
+      document.getElementById("sMobile").value = "";
+
+    })
+    .catch(err => {
+      alert("❌ Failed to send registration link");
+      console.error(err);
+    })
+    .finally(() => {
+      btn.disabled = false;
+      btn.innerText = "Send Registration Link";
     });
-    
-    renderStudents();
-    clearInputs(['sName', 'sEmail', 'sMobile', 'sClass']);
-    alert(`Invite link sent to ${email}`);
-};
-
-function renderStudents() {
-    const container = document.getElementById('studentTable');
-    container.innerHTML = students.map((s, i) => `
-        <tr>
-            <td><strong>${s.name}</strong><br><small>${s.email}</small></td>
-            <td>${s.class}</td>
-            <td>${s.subjects.join(", ") || '<span style="color:#cbd5e1">No subjects</span>'}</td>
-            <td><span class="status-badge ${s.status === 'INVITED' ? 'invited' : 'active-status'}">${s.status}</span></td>
-            <td>
-                <button class="action-btn" onclick="assignSub(${i}, 'student')" title="Assign Subjects"><i class='bx bx-book-add'></i></button>
-                <button class="action-btn delete-btn" onclick="deleteItem(${i}, 'student')"><i class='bx bx-trash'></i></button>
-            </td>
-        </tr>
-    `).join('');
 }
+
+
+
+
+
+
 
 // --- FACULTY MANAGEMENT ---
 let facultyList = [];
