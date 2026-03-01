@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to SmartAttendance</title>
+    <!-- Font import for email clients that support web fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Email client resets */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+        
+        /* Base styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: 'Plus Jakarta Sans', Arial, sans-serif;">
+
+    <!-- 100% Background Wrapper -->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                
+                <!-- Main Email Container -->
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+                    
+                    <!-- Header Section (Navy Blue) -->
+                    <tr>
+                        <td align="center" style="background-color: #0f172a; padding: 40px 20px;">
+                            <!-- Logo / Brand -->
+                            <h1 style="margin: 0; font-size: 24px; color: #ffffff; font-weight: 800; letter-spacing: 0.5px;">
+                                <span style="color: #f97316;">Smart</span>Attendance
+                            </h1>
+                            <p style="margin: 10px 0 0 0; color: #cbd5e1; font-size: 15px;">
+                                Next-Gen Academic Management
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Body Content Section -->
+                    <tr>
+                        <td style="padding: 40px 30px;">
+                            <h2 style="margin: 0 0 20px 0; font-size: 22px; color: #0f172a; font-weight: 700;">
+                                Faculty Registration Invitation
+                            </h2>
+                            
+                            <p style="margin: 0 0 15px 0; font-size: 16px; color: #475569; line-height: 1.6;">
+                                Dear <strong>{{name}}</strong>,
+                            </p>
+
+                            <p style="margin: 0 0 30px 0; font-size: 16px; color: #475569; line-height: 1.6;">
+                                You have been invited by the administration to join the SmartAttendance portal. Please complete your registration and set up your professional profile by clicking the button below.
+                            </p>
+
+                            <!-- Call to Action Button -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 25px;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="{{registration_link}}" style="background-color: #f97316; color: #ffffff; text-decoration: none; padding: 14px 35px; border-radius: 50px; font-size: 16px; font-weight: 700; display: inline-block;">
+                                            Complete Registration
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin: 0 0 10px 0; font-size: 14px; color: #94a3b8; line-height: 1.6; text-align: center;">
+                                If the button doesn't work, copy and paste this link into your browser:
+                            </p>
+                            <p style="margin: 0; font-size: 13px; text-align: center; word-break: break-all;">
+                                <a href="{{registration_link}}" style="color: #2563eb; text-decoration: underline;">{{registration_link}}</a>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Footer Section -->
+                    <tr>
+                        <td align="center" style="background-color: #f1f5f9; padding: 30px 20px; border-top: 1px solid #e2e8f0;">
+                            <p style="margin: 0 0 10px 0; font-size: 14px; color: #64748b; font-weight: 600;">
+                                Need Help?
+                            </p>
+                            <p style="margin: 0 0 20px 0; font-size: 13px; color: #94a3b8; line-height: 1.5;">
+                                Contact our IT support team at <a href="mailto:support@college.edu" style="color: #f97316; text-decoration: none;">support@college.edu</a>
+                            </p>
+                            <p style="margin: 0; font-size: 12px; color: #94a3b8;">
+                                © 2026 SmartAttendance System. All rights reserved.<br>
+                                This is an automated message, please do not reply to this email.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+                <!-- End Main Email Container -->
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

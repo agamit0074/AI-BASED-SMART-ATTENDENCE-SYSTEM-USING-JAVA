@@ -27,7 +27,7 @@ public class Student {
 
     private String status; // INVITED / ACTIVE
 
-    @Lob
+
     private byte[] profilePic;
 
     //Student belongs to one class

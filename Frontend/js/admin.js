@@ -2,94 +2,284 @@
 if (!localStorage.getItem("token")) 
     location.href = "login.html";
 
-// --- INITIALIZATION ---
+/* ============================================================
+   INITIALIZATION
+============================================================ */
+
+let currentPage = 0;
+let currentSearch = "";
+
 document.addEventListener("DOMContentLoaded", () => {
+
     updateClock();
     setInterval(updateClock, 1000);
+
+    loadDashboardStats();
+    loadStudents();
+
+    // 🔥 Live refresh every 30 sec
+    setInterval(() => {
+        loadDashboardStats();
+        loadStudents(currentPage);
+    }, 300000);
 });
 
 function updateClock() {
-    document.getElementById('liveClock').innerText = new Date().toLocaleTimeString();
+    document.getElementById('liveClock').innerText =
+        new Date().toLocaleTimeString();
 }
 
-// --- TAB NAVIGATION ---
+/* ============================================================
+   TAB NAVIGATION
+============================================================ */
+
 document.querySelectorAll(".side-nav li").forEach(li => {
     li.onclick = () => {
         const target = li.dataset.tab;
-        
-        // UI Updates
-        document.querySelectorAll(".side-nav li").forEach(x => x.classList.remove("active"));
-        document.querySelectorAll(".tab-pane").forEach(x => x.classList.remove("active"));
-        
+
+        document.querySelectorAll(".side-nav li")
+            .forEach(x => x.classList.remove("active"));
+
+        document.querySelectorAll(".tab-pane")
+            .forEach(x => x.classList.remove("active"));
+
         li.classList.add("active");
         document.getElementById(target).classList.add("active");
-        document.getElementById('activeTabTitle').innerText = li.innerText.trim();
+        document.getElementById('activeTabTitle')
+            .innerText = li.innerText.trim();
     };
 });
 
-// --- STUDENT MANAGEMENT ---
-let students = [];
+/* ============================================================
+   DASHBOARD STATS
+============================================================ */
 
-//Button click
-document.getElementById("addStudentBtn").addEventListener("click", sendInvite);
+function loadDashboardStats() {
 
-function sendInvite() {
-
-  const name = document.getElementById("sName").value.trim();
-  const email = document.getElementById("sEmail").value.trim();
-  const mobile = document.getElementById("sMobile").value.trim();
-
-  // Basic validation
-  if (!name || !email || !mobile) {
-    alert("Please fill all fields");
-    return;
-  }
-
-  const payload = {
-    name: name,
-    email: email,
-    mobile: mobile
-  };
-
-  // Disable button (UX)
-  const btn = document.getElementById("addStudentBtn");
-  btn.disabled = true;
-  btn.innerText = "Sending...";
-
-  fetch("http://localhost:8080/api/admin/students/invite", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + localStorage.getItem("token")
-    },
-    body: JSON.stringify(payload)
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Failed");
-      return res.text();
+    fetch("http://localhost:8080/api/admin/students/dashboard", {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
     })
-    .then(msg => {
-      alert("✅ Registration link sent successfully");
-
-      // Clear form
-      document.getElementById("sName").value = "";
-      document.getElementById("sEmail").value = "";
-      document.getElementById("sMobile").value = "";
-
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("totalCount").innerText = data.total;
+        document.getElementById("invitedCount").innerText = data.invited;
+        document.getElementById("activeCount").innerText = data.active;
     })
-    .catch(err => {
-      alert("❌ Failed to send registration link");
-      console.error(err);
+    .catch(err => console.error("Dashboard load failed", err));
+}
+
+/* ============================================================
+   STUDENT LIST (Pagination + Search)
+============================================================ */
+
+function loadStudents(page = 0) {
+
+    fetch(`http://localhost:8080/api/admin/students?page=${page}&search=${currentSearch}`, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
     })
-    .finally(() => {
-      btn.disabled = false;
-      btn.innerText = "Send Registration Link";
+    .then(res => res.json())
+    .then(data => {
+
+        currentPage = data.currentPage;
+
+        document.getElementById("studentTable").innerHTML =
+            data.content.map(student => `
+                <tr>
+                    <td>${student.name}</td>
+                    <td>${student.email}</td>
+                    <td>${student.className || "No Class Assigned"}</td>
+                    <td>${student.subjects ? student.subjects.join(", ") : "-"}</td>
+                    <td>${formatStatus(student.status)}</td>
+                    <td>
+                        <button class="action-btn"
+                            onclick="confirmDelete('${student.email}')">
+                            <i class='bx bx-trash'></i>
+                        </button>
+
+                        <button class="action-btn"
+                            onclick="confirmEdit('${student.email}')">
+                            <i class='bx bx-edit'></i>
+                        </button>
+
+                        <button class="action-btn"
+                            onclick="assignSubject('${student.email}')">
+                            <i class='bx bx-book'></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join("");
+
+        renderPagination(data.totalPages);
     });
 }
 
+/* ============================================================
+   SEARCH
+============================================================ */
 
+document.querySelector(".search-bar input")
+    .addEventListener("input", e => {
 
+        currentSearch = e.target.value;
+        loadStudents(0);
+});
 
+/* ============================================================
+   STATUS FORMATTER
+============================================================ */
+
+function formatStatus(status) {
+
+    if(status === "INVITED")
+        return "<span class='status-badge invited'>Invited</span>";
+
+    if(status === "ACTIVE")
+        return "<span class='status-badge active-status'>Active</span>";
+
+    if(status === "EXPIRED")
+        return "<span class='status-badge expired'>Registration Link Expired</span>";
+
+    return status;
+}
+
+/* ============================================================
+   DELETE STUDENT
+============================================================ */
+
+function confirmDelete(email) {
+
+    if(!confirm("Are you sure you want to delete this student?"))
+        return;
+
+    fetch(`http://localhost:8080/api/admin/students/${email}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    })
+    .then(() => {
+        loadStudents(currentPage);
+        loadDashboardStats();
+    });
+}
+
+/* ============================================================
+   EDIT EMAIL
+============================================================ */
+
+function confirmEdit(oldEmail) {
+
+    const newEmail = prompt("Enter new email:");
+
+    if(!newEmail) return;
+
+    if(!confirm("Are you sure you want to update email?"))
+        return;
+
+    fetch(`http://localhost:8080/api/admin/students/update-email?oldEmail=${oldEmail}&newEmail=${newEmail}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    })
+    .then(() => loadStudents(currentPage));
+}
+
+/* ============================================================
+   ASSIGN SUBJECT (Placeholder)
+============================================================ */
+
+function assignSubject(email) {
+    alert("Assign subject logic will be added later for: " + email);
+}
+
+/* ============================================================
+   PAGINATION
+============================================================ */
+
+function renderPagination(totalPages) {
+
+    let html = "";
+
+    if(totalPages > 1) {
+
+        html += `<button onclick="loadStudents(${currentPage-1})"
+                    ${currentPage === 0 ? "disabled" : ""}>
+                    Prev
+                 </button>`;
+
+        for(let i=0;i<totalPages;i++) {
+            html += `<button onclick="loadStudents(${i})"
+                        ${i===currentPage ? "style='font-weight:bold'" : ""}>
+                        ${i+1}
+                     </button>`;
+        }
+
+        html += `<button onclick="loadStudents(${currentPage+1})"
+                    ${currentPage === totalPages-1 ? "disabled" : ""}>
+                    Next
+                 </button>`;
+    }
+
+    document.getElementById("pagination").innerHTML = html;
+}
+
+/* ============================================================
+   INVITE STUDENT
+============================================================ */
+
+document.getElementById("addStudentBtn")
+    .addEventListener("click", sendInvite);
+
+function sendInvite() {
+
+    const name = document.getElementById("sName").value.trim();
+    const email = document.getElementById("sEmail").value.trim();
+    const mobile = document.getElementById("sMobile").value.trim();
+
+    if (!name || !email || !mobile) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    const btn = document.getElementById("addStudentBtn");
+    btn.disabled = true;
+    btn.innerText = "Sending...";
+
+    fetch("http://localhost:8080/api/admin/students/invite", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        body: JSON.stringify({ name, email, mobile })
+    })
+    .then(res => res.text())
+    .then(() => {
+        alert("✅ Registration link sent successfully");
+        clearInputs(['sName','sEmail','sMobile']);
+        loadDashboardStats();
+        loadStudents(0);
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerText = "Send Registration Link";
+    });
+}
+
+/* ============================================================
+   HELPER
+============================================================ */
+
+function clearInputs(ids) {
+    ids.forEach(id =>
+        document.getElementById(id).value = ""
+    );
+}
 
 
 
@@ -120,27 +310,3 @@ function renderFaculty() {
     `).join('');
 }
 
-// --- SHARED FUNCTIONS ---
-function assignSub(index, type) {
-    const input = prompt("Enter Subjects (comma separated):");
-    if (!input) return;
-
-    if (type === 'student') {
-        students[index].subjects = input.split(",").map(s => s.trim());
-        renderStudents();
-    } else {
-        facultyList[index].subjects = input.split(",").map(s => s.trim());
-        facultyList[index].class = prompt("Enter Assigned Class:");
-        renderFaculty();
-    }
-}
-
-function deleteItem(index, type) {
-    if(!confirm("Bhai, are you sure?")) return;
-    if(type === 'student') students.splice(index, 1), renderStudents();
-    else facultyList.splice(index, 1), renderFaculty();
-}
-
-function clearInputs(ids) {
-    ids.forEach(id => document.getElementById(id).value = "");
-}

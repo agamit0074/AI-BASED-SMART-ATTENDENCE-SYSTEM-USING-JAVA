@@ -1,5 +1,7 @@
 package com.sa.SmartAttendance.controller.auth;
 
+import java.awt.PageAttributes.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +38,7 @@ public class AuthController {
 		return authService.login(request);
 	}
 
-	@PostMapping("/register-student")
+	@PostMapping(path = "/register-student", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> registerStudent(@RequestPart("data") StudentRegistrationRequest request,
 			@RequestPart("profilePic") MultipartFile file) throws Exception {
 

@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 
 @Service
-public class MailService {
+public class FacultyMailService {
 
     private final JavaMailSender mailSender;
 
-    public MailService(JavaMailSender mailSender) {
+    public FacultyMailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
     
@@ -26,7 +26,7 @@ public class MailService {
         try {
             // Load HTML template
             ClassPathResource resource =
-                    new ClassPathResource("email-templates/email-invite.html");
+                    new ClassPathResource("email-templates/faculty-invite.html");
 
             String htmlTemplate = new String(
                     resource.getInputStream().readAllBytes(),
@@ -35,7 +35,7 @@ public class MailService {
 
             // Replace placeholder
             String finalHtml =
-                    htmlTemplate.replace("{{link}}", registrationLink)
+                    htmlTemplate.replace("{{registration_link}}", registrationLink)
                                 .replace("{{name}}", name);
 
             // Create mail
@@ -44,7 +44,7 @@ public class MailService {
                     new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setTo(toEmail);
-            helper.setSubject("SmartAttendance | Student Registration");
+            helper.setSubject("SmartAttendance | Faculty Registration");
             helper.setText(finalHtml, true); // true = HTML
 
             mailSender.send(message);
