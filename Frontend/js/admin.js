@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(() => {
         loadDashboardStats();
         loadStudents(currentPage);
-    }, 300000);
+    }, 30000);
 });
 
 function updateClock() {

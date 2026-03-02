@@ -26,10 +26,13 @@ public class FacultyInviteService {
     private FacultyMailService mailService;
 	
 	public String sendInvite(FacultyInviteRequest request) {
+		System.out.println(request.name());
+		System.out.println(request.email());
 
-        if (facultyRepo.existsByEmail(request.email()))
+        if(facultyRepo.existsByEmail(request.email()))
             throw new AlreadyRegisteredException("Faculty already invited or registered");
 
+        
         Faculty faculty = new Faculty();
         faculty.setFirstName(request.name());
         faculty.setEmail(request.email());
