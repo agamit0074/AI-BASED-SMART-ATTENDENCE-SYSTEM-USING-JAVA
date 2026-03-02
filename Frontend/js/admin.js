@@ -286,27 +286,80 @@ function clearInputs(ids) {
 // --- FACULTY MANAGEMENT ---
 let facultyList = [];
 
-document.getElementById('addFacultyBtn').onclick = () => {
-    const name = document.getElementById('fName').value;
-    const email = document.getElementById('fEmail').value;
+/* ===============================
+   FACULTY INVITE
+================================ */
 
-    facultyList.push({ name, email, subjects: [], class: "Not Assigned" });
-    renderFaculty();
-    clearInputs(['fName', 'fEmail']);
-};
+document.getElementById("addFacultyBtn")
+        .addEventListener("click", sendFacultyInvite);
 
-function renderFaculty() {
-    document.getElementById('facultyTable').innerHTML = facultyList.map((f, i) => `
-        <tr>
-            <td><strong>${f.name}</strong></td>
-            <td>${f.email}</td>
-            <td>${f.subjects.join(", ") || "-"}</td>
-            <td>${f.class}</td>
-            <td>
-                <button class="action-btn" onclick="assignSub(${i}, 'faculty')"><i class='bx bx-cog'></i></button>
-                <button class="action-btn delete-btn" onclick="deleteItem(${i}, 'faculty')"><i class='bx bx-trash-alt'></i></button>
-            </td>
-        </tr>
-    `).join('');
+async function sendFacultyInvite() {
+
+    const name = document.getElementById("fName").value.trim();
+    const email = document.getElementById("fEmail").value.trim();
+    const btn = document.getElementById("addFacultyBtn");
+
+    // ✅ Basic Validation
+    if (!name || !email) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    if (!validateEmail(email)) {
+        alert("Invalid email format");
+        return;
+    }
+
+    const payload = {
+        name: name,
+        email: email
+    };
+
+    try {
+
+        btn.disabled = true;
+        btn.innerText = "Sending...";
+
+        const response = await fetch(
+            "http://localhost:8080/api/admin/faculty/invite",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                body: JSON.stringify(payload)
+            }
+        );
+
+        const text = await response.text();
+
+        if (!response.ok) {
+            throw new Error(text);
+        }
+
+        alert("✅ Faculty registration link sent successfully!");
+
+        // Clear inputs
+        document.getElementById("fName").value = "";
+        document.getElementById("fEmail").value = "";
+
+    } catch (error) {
+
+        alert("❌ " + error.message);
+
+    } finally {
+
+        btn.disabled = false;
+        btn.innerText = "Send Invite";
+    }
+}
+
+/* ===============================
+   EMAIL VALIDATION
+================================ */
+
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
